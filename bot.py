@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Router
+from aiogram.filters import Command
 from parser import parse_request_numbers
 import db
 from message_formatter import format_telegram_message
@@ -63,6 +64,25 @@ async def send_or_update_message(chat_id, text, bot, message_id=None):
         }
         logger.debug(f"Данные сохранены в previous_results_storage для нового message_id={sent_message.message_id}")
         return sent_message
+
+# Обработчик команды /help
+@router.message(Command(commands=['help']))
+async def help_command_handler(message: types.Message):
+    try:
+        help_text = (
+            "<b>☝️ Как пользоваться:</b> \n\n"
+            "- Для взаимодействия с ботом укажите его <code>username</code> (через @) и номера заявок.\n"
+            "- Отправляем через <code>Ctrl + Shift + Enter</code>.\n"
+            "- Формат не важен - бот спарсит заявки из вашего текста.\n"
+            "- Обновляем статус через кнопку <code>Обновить статус</code> (раз в минуту).\n"
+            "- Если бот постоянно возвращает <code>Не удалось найти данные для обновления</code> при обновлении статуса — направьте повторно заявки боту (новым сообщением).\n"
+            "- Рекомендуем в одном запросе использовать не более 10 заявок, чтобы проще было отслеживать статусы (иначе накроет простыней 🙈 ).\n\n"
+            "Мира вам!"
+        )
+        await message.answer(help_text, parse_mode="HTML")
+        logger.info(f"Команда /help выполнена пользователем @{message.from_user.username}")
+    except Exception as e:
+        logger.error(f"Ошибка при выполнении команды /help: {e}", exc_info=True)
 
 
 # Обработчик сообщений
