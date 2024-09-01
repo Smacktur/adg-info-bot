@@ -1,8 +1,18 @@
-from config import DB_CONFIG  # Импортируй конфигурацию БД
+from config import DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASS
 import psycopg2
 import logging
 
 logger = logging.getLogger(__name__)
+
+def get_connection():
+    connection = psycopg2.connect(
+        host=DB_HOST,
+        port=DB_PORT,
+        dbname=DB_DATABASE,
+        user=DB_USERNAME,
+        password=DB_PASS
+    )
+    return connection
 
 def query_database(request_numbers):
     try:
@@ -18,7 +28,7 @@ def query_database(request_numbers):
         LEFT JOIN alfa_reject_traffic_declined_applications artda ON arts.constant_id = artda.constant_id
         WHERE arts.constant_id IN ({request_numbers});
         """
-        connection = psycopg2.connect(**DB_CONFIG)
+        connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query)
         rows = cursor.fetchall()
