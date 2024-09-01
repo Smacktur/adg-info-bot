@@ -18,8 +18,6 @@ def query_database(request_numbers):
         LEFT JOIN alfa_reject_traffic_declined_applications artda ON arts.constant_id = artda.constant_id
         WHERE arts.constant_id IN ({request_numbers});
         """
-
-        logger.info(f"Выполнение запроса в БД: {request_numbers}")
         connection = psycopg2.connect(**DB_CONFIG)
         cursor = connection.cursor()
         cursor.execute(query)

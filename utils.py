@@ -17,9 +17,8 @@ def can_update_status(user_id, chat_id):
 
     if user_id in last_update_time:
         elapsed_time = current_time - last_update_time[user_id]
-        print(f"[DEBUG] Пользователь {user_id} пытается обновить статус. Прошло времени: {elapsed_time} секунд")
+        logging.debug(f"Пользователь {user_id} пытается обновить статус. Прошло времени: {elapsed_time} секунд")
         if elapsed_time < 60:
-            print(f"[WARNING] Пользователь {user_id} пытался обновить статус слишком часто.")
             return False
 
     last_update_time[user_id] = current_time
