@@ -5,3 +5,4 @@ Lib/
 Scripts/
 __pycache__/
 *.log
+logs/

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "adg-info-bot"
+version = "0.1.0"
+description = ""
+authors = ["Smacktur <smacktur@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^3.12.0"
+psycopg2 = "^2.9.9"
+
+
+[tool.poetry.group.dev.dependencies]
+watchdog = "^5.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
